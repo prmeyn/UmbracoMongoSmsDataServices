@@ -11,8 +11,9 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Twilio" Version="5.78.0" />
+    <PackageReference Include="Umbraco.Cms.Core" Version="10.0.1" />
     <PackageReference Include="UmbracoMongoTokenManager" Version="2.0.0" />
-    <None Include=".\README.md" Pack="true" PackagePath="\"/>
+    <None Include=".\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

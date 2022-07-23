@@ -11,9 +11,9 @@ namespace UmbracoMongoSmsDataServices.Setup
 	{
 		private readonly IHostingEnvironment _env;
 		private readonly IConfiguration _config;
-		private readonly ILogger _logger;
+		private readonly  ILogger<SmsDataServicesComponent> _logger;
 
-		public SmsDataServicesComponent(IHostingEnvironment env, IConfiguration config, ILogger logger)
+		public SmsDataServicesComponent(IHostingEnvironment env, IConfiguration config, ILogger<SmsDataServicesComponent> logger)
 		{
 			_env = env;
 			_config = config;
