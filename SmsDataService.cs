@@ -60,5 +60,8 @@ namespace UmbracoMongoSmsDataServices
 		{
 			return GetAllCountryPhoneCodes.FirstOrDefault(p => p.CountryPhoneCode == phone_code);
 		}
+
+		public static MobileNumber FormatedMobileNumber(string phone_code, string contact_number) => $"+{phone_code}{MobileNumber.seprator}{contact_number}";
+
 	}
 }
