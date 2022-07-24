@@ -14,9 +14,24 @@ The `appsettings.json` file should contain your settings for your Twilio account
 	}
 }
 ```
-
+Sample code
 ```csharp
 using UmbracoMongoSmsDataServices;
 
-;
+IEnumerable<CountryPhoneCodeItem> CountryPhoneCodes = SmsDataService.GetAllCountryPhoneCodes.OrderBy(cpc => cpc.CountryCode);
+
+private static MobileNumber FormatedMobileNumber(string phone_code, string contact_number) => $"+{phone_code}{MobileNumber.seprator}{contact_number}";
+
+MobileNumber mobileNumber = FormatedMobileNumber("45", "99945349"); // For an Danish mobile number.
+
+SmsDataService.SmsServices.First().SendOTP(
+					mobileWithCountryCode: mobileNumber,
+					languageISOCode: "en");
+					
+SmsDataService.SmsServices.First().VerifyOTP(
+				mobileWithCountryCode: mobileNumber,
+				OTP: "848333"));
+				
+SmsDataService.SmsServices.First().SendSMS(mobileNumber, "Hello World!");
+
 ```
