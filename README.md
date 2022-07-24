@@ -20,9 +20,8 @@ using UmbracoMongoSmsDataServices;
 
 IEnumerable<CountryPhoneCodeItem> CountryPhoneCodes = SmsDataService.GetAllCountryPhoneCodes.OrderBy(cpc => cpc.CountryCode);
 
-private static MobileNumber FormatedMobileNumber(string phone_code, string contact_number) => $"+{phone_code}{MobileNumber.seprator}{contact_number}";
 
-MobileNumber mobileNumber = FormatedMobileNumber("45", "99945349"); // For an Danish mobile number.
+MobileNumber mobileNumber = SmsServices.FormatedMobileNumber("45", "99945349"); // For an Danish mobile number.
 
 SmsDataService.SmsServices.First().SendOTP(
 					mobileWithCountryCode: mobileNumber,
