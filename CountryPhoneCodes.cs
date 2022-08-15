@@ -1,5 +1,4 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using System.Collections.Generic;
 
 namespace UmbracoMongoSmsDataServices
 {
@@ -23,6 +22,18 @@ namespace UmbracoMongoSmsDataServices
 		public string CountryPhoneCode { get; set; }
 		public string CountryCode { get; set; }
 		public int[]? ValidLengths { get; set; }
+	}
+
+	public class CountryPhoneCodeWithNameItem : CountryPhoneCodeItem
+	{
+		public CountryPhoneCodeWithNameItem(CountryPhoneCodeItem c)
+		{
+			CountryPhoneCode = c.CountryPhoneCode;
+			CountryCode = c.CountryCode;
+			ValidLengths = c.ValidLengths;
+		}
+
+		public string CountryName { get; set; }
 	}
 
 }

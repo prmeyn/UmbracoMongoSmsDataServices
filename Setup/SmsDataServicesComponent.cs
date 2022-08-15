@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Umbraco.Cms.Core.Composing;
+using Umbraco.Cms.Core.Services;
 using UmbracoMongoSmsDataServices.SmsServices.Fake;
 using UmbracoMongoSmsDataServices.SmsServices.Twilio;
 
@@ -12,12 +13,14 @@ namespace UmbracoMongoSmsDataServices.Setup
 		private readonly IHostingEnvironment _env;
 		private readonly IConfiguration _config;
 		private readonly  ILogger<SmsDataServicesComponent> _logger;
+		private readonly ILocalizationService _localizationService;
 
-		public SmsDataServicesComponent(IHostingEnvironment env, IConfiguration config, ILogger<SmsDataServicesComponent> logger)
+		public SmsDataServicesComponent(IHostingEnvironment env, IConfiguration config, ILogger<SmsDataServicesComponent> logger, ILocalizationService localizationService)
 		{
 			_env = env;
 			_config = config;
 			_logger = logger;
+			_localizationService = localizationService;
 		}
 
 		public void Initialize()
@@ -37,6 +40,11 @@ namespace UmbracoMongoSmsDataServices.Setup
 			));
 
 			SmsDataService.LoadCountryPhoneData();
+			var allLanguagesWithTwoLetterIsoCodes = _localizationService.GetAllLanguages().Where(lang => !string.IsNullOrWhiteSpace(lang.IsoCode) && lang.IsoCode.Length == 2);
+			SmsDataService.CountryNames = allLanguagesWithTwoLetterIsoCodes.ToDictionary(
+				l => l.IsoCode.ToLower(),
+				l => SmsDataService.CountryPhoneData.ToDictionary(c => c.Key, country => _localizationService.GetDictionaryItemByKey($"CountryCodes.{country.Key}")?.Translations?.SingleOrDefault(ll => ll.Language.IsoCode.ToLower() == l.IsoCode.ToLower())?.Value ?? country.Key)
+				);
 		}
 
 		public void Terminate()

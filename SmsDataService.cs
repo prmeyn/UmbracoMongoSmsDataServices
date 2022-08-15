@@ -10,10 +10,19 @@ namespace UmbracoMongoSmsDataServices
 	public static class SmsDataService
 	{
 		private static readonly string _countryPhoneDataCollectionName = "CountryPhoneData";
-		private static Dictionary<string, CountryPhoneCodes> _countryPhoneData;
+		public static Dictionary<string, CountryPhoneCodes> CountryPhoneData;
 		public static List<IServiceMobileNumbers> SmsServices = new();
-		public static Dictionary<string, CountryPhoneCodes> GetAllCountryPhoneCodesDictionary => _countryPhoneData;
-		public static IEnumerable<CountryPhoneCodeItem> GetAllCountryPhoneCodes => _countryPhoneData.Values.SelectMany(c => c.CountryPhoneCodeList.Select(cpc => new CountryPhoneCodeItem() { CountryPhoneCode = cpc, CountryCode = c.CountryCode, ValidLengths = c.ValidLengths } ));
+		public static Dictionary<string, CountryPhoneCodes> GetAllCountryPhoneCodesDictionary => CountryPhoneData;
+		public static IEnumerable<CountryPhoneCodeItem> GetAllCountryPhoneCodes => CountryPhoneData.Values.SelectMany(c => c.CountryPhoneCodeList.Select(cpc => new CountryPhoneCodeItem() { CountryPhoneCode = cpc, CountryCode = c.CountryCode, ValidLengths = c.ValidLengths } ));
+
+		public static Dictionary<string, Dictionary<string, string>> CountryNames { get; internal set; }
+
+		public static IEnumerable<CountryPhoneCodeWithNameItem> GetAllCountryPhoneCodesWithNames(string langaugeTwoLetterIsoCode) {
+			var translatedCountryNames = CountryNames[langaugeTwoLetterIsoCode];
+			return GetAllCountryPhoneCodes.Select(c => new CountryPhoneCodeWithNameItem(c) {
+				CountryName = translatedCountryNames[c.CountryCode]
+			});
+		}
 		public static void LoadCountryPhoneData()
 		{
 			var database = MongoDBClientConnection.GetDatabase(MethodBase.GetCurrentMethod().DeclaringType.Name);
@@ -24,7 +33,7 @@ namespace UmbracoMongoSmsDataServices
 				var dictionaryOfCountryPhoneCodes = CountryPhoneCodeData.Load();
 				collection.InsertMany(dictionaryOfCountryPhoneCodes.Select(r => new CountryPhoneCodes(r).ToBsonDocument()));
 			}
-			_countryPhoneData = collection.Find(FilterDefinition<BsonDocument>.Empty).ToListAsync().Result.ToDictionary(v => v.GetValue(0).ToString(), v => BsonSerializer.Deserialize<CountryPhoneCodes>(v));
+			CountryPhoneData = collection.Find(FilterDefinition<BsonDocument>.Empty).ToListAsync().Result.ToDictionary(v => v.GetValue(0).ToString(), v => BsonSerializer.Deserialize<CountryPhoneCodes>(v));
 
 			new Thread(WatchForCollectionChanges).Start();
 		}
@@ -37,7 +46,7 @@ namespace UmbracoMongoSmsDataServices
 			{
 				foreach (var change in cursor.ToEnumerable())
 				{
-					_countryPhoneData = collection.Find(FilterDefinition<BsonDocument>.Empty).ToListAsync().Result.ToDictionary(v => v.GetValue(0).ToString(), v => BsonSerializer.Deserialize<CountryPhoneCodes>(v));
+					CountryPhoneData = collection.Find(FilterDefinition<BsonDocument>.Empty).ToListAsync().Result.ToDictionary(v => v.GetValue(0).ToString(), v => BsonSerializer.Deserialize<CountryPhoneCodes>(v));
 					break;
 				}
 			}
@@ -45,7 +54,7 @@ namespace UmbracoMongoSmsDataServices
 
 		public static void UpdateValidLengthForCountry(string countryIsoCode, int validContactNumberLength)
 		{
-			if (_countryPhoneData.TryGetValue(countryIsoCode, out CountryPhoneCodes value) && !value.ValidLengths.Contains(validContactNumberLength))
+			if (CountryPhoneData.TryGetValue(countryIsoCode, out CountryPhoneCodes value) && !value.ValidLengths.Contains(validContactNumberLength))
 			{
 				var database = MongoDBClientConnection.GetDatabase(MethodBase.GetCurrentMethod().DeclaringType.Name);
 				var collection = database.GetCollection<BsonDocument>(_countryPhoneDataCollectionName);
