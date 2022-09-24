@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace UmbracoMongoSmsDataServices
+﻿namespace UmbracoMongoSmsDataServices
 {
 	public class CountryPhoneCodeData
 	{

@@ -6,9 +6,9 @@ namespace UmbracoMongoSmsDataServices
 	public class SerializableContactNumber
 	{
 		[JsonProperty("CountryCodeAndPhoneCode")]
-		public string CountryCodeAndPhoneCode { get; set; }
+		public string? CountryCodeAndPhoneCode { get; set; }
 		[JsonProperty("ContactNumber")]
-		public string ContactNumber { get; set; }
+		public string? ContactNumber { get; set; }
 
 		public string FormattedContactNumber(char sepratorChar)
 		{

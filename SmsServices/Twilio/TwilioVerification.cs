@@ -1,9 +1,10 @@
 ﻿using System;
 using Twilio;
+using Twilio.Exceptions;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Rest.Verify.V2.Service;
 
-namespace UmbracoMongoSmsDataServices.SmsServices.Twilio
+namespace UmbracoMongoSmsDataServices.SmsServices.TwilioService
 {
 	public class TwilioVerification : IServiceMobileNumbers
 	{
@@ -63,14 +64,21 @@ namespace UmbracoMongoSmsDataServices.SmsServices.Twilio
 		{
 			try
 			{
+				var to = $"+{mobileWithCountryCode.ToLong()}";
+				var too = new Twilio.Types.PhoneNumber(to);
 				TwilioClient.Init(_accountSid, _authToken);
 				return !string.IsNullOrWhiteSpace(MessageResource.Create(
 					body: shortMessageServiceMessage,
-					from: _registeredSenderPhoneNumber,
-					to: $"+{mobileWithCountryCode.ToLong()}"
+					from: new Twilio.Types.PhoneNumber(_registeredSenderPhoneNumber),
+					to: too
 				)?.Sid);
 			}
-			catch { return false; }
+			catch (ApiException e)
+			{
+				Console.WriteLine(e.Message);
+				Console.WriteLine($"Twilio Error {e.Code} - {e.MoreInfo}");
+				return false;
+			}
 		}
 	}
 }

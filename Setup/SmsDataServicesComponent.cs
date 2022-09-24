@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Services;
 using UmbracoMongoSmsDataServices.SmsServices.Fake;
-using UmbracoMongoSmsDataServices.SmsServices.Twilio;
+using UmbracoMongoSmsDataServices.SmsServices.TwilioService;
 
 namespace UmbracoMongoSmsDataServices.Setup
 {
