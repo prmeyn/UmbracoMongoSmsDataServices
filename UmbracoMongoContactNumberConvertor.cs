@@ -7,14 +7,7 @@ namespace UmbracoMongoSmsDataServices
 	public class UmbracoMongoContactNumberConvertor : IPropertyValueConverter
 	{
 		public bool IsConverter(IPublishedPropertyType propertyType) => propertyType.EditorAlias == "UmbracoMongoContactNumber";
-		public object? ConvertIntermediateToObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object? inter, bool preview)
-		{
-			if (IsValid(inter, out SerializableContactNumber? number))
-			{
-				return number;
-			}
-			return null;
-		}
+		public object? ConvertIntermediateToObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object? inter, bool preview) => inter as SerializableContactNumber;
 
 		public object? ConvertIntermediateToXPath(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object? inter, bool preview)
 		{
