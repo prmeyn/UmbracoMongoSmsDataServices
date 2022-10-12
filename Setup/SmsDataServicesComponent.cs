@@ -41,10 +41,6 @@ namespace UmbracoMongoSmsDataServices.Setup
 
 			SmsDataService.LoadCountryPhoneData();
 			var allLanguagesWithTwoLetterIsoCodes = _localizationService.GetAllLanguages().Where(lang => !string.IsNullOrWhiteSpace(lang.IsoCode) && lang.IsoCode.Length == 2);
-			SmsDataService.CountryNames = allLanguagesWithTwoLetterIsoCodes.ToDictionary(
-				l => l.IsoCode.ToLower(),
-				l => SmsDataService.CountryPhoneData.ToDictionary(c => c.Key, country => _localizationService.GetDictionaryItemByKey($"CountryCodes.{country.Key}")?.Translations?.SingleOrDefault(ll => ll.Language.IsoCode.ToLower() == l.IsoCode.ToLower())?.Value ?? "")
-				);
 		}
 
 		public void Terminate()

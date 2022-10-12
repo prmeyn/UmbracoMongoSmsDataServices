@@ -15,14 +15,6 @@ namespace UmbracoMongoSmsDataServices
 		public static Dictionary<string, CountryPhoneCodes> GetAllCountryPhoneCodesDictionary => CountryPhoneData;
 		public static IEnumerable<CountryPhoneCodeItem> GetAllCountryPhoneCodes => CountryPhoneData.Values.SelectMany(c => c.CountryPhoneCodeList.Select(cpc => new CountryPhoneCodeItem() { CountryPhoneCode = cpc, CountryCode = c.CountryCode, ValidLengths = c.ValidLengths } ));
 
-		public static Dictionary<string, Dictionary<string, string>> CountryNames { get; internal set; }
-
-		public static IEnumerable<CountryPhoneCodeWithNameItem> GetAllCountryPhoneCodesWithNames(string langaugeTwoLetterIsoCode) {
-			var translatedCountryNames = CountryNames[langaugeTwoLetterIsoCode];
-			return GetAllCountryPhoneCodes.Select(c => new CountryPhoneCodeWithNameItem(c) {
-				CountryName = translatedCountryNames[c.CountryCode]
-			});
-		}
 		public static void LoadCountryPhoneData()
 		{
 			var database = MongoDBClientConnection.GetDatabase(MethodBase.GetCurrentMethod().DeclaringType.Name);

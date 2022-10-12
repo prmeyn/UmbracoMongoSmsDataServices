@@ -23,17 +23,4 @@ namespace UmbracoMongoSmsDataServices
 		public string CountryCode { get; set; }
 		public int[]? ValidLengths { get; set; }
 	}
-
-	public class CountryPhoneCodeWithNameItem : CountryPhoneCodeItem
-	{
-		public CountryPhoneCodeWithNameItem(CountryPhoneCodeItem c)
-		{
-			CountryPhoneCode = c.CountryPhoneCode;
-			CountryCode = c.CountryCode;
-			ValidLengths = c.ValidLengths;
-		}
-
-		public string CountryName { get; set; }
-	}
-
 }
