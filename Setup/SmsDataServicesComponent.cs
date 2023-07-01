@@ -8,7 +8,7 @@ using UmbracoMongoSmsDataServices.SmsServices.TwilioService;
 
 namespace UmbracoMongoSmsDataServices.Setup
 {
-	public class SmsDataServicesComponent : IComponent
+	public sealed class SmsDataServicesComponent : IComponent
 	{
 		private readonly IHostingEnvironment _env;
 		private readonly IConfiguration _config;

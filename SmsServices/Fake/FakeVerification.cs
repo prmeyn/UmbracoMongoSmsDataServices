@@ -3,7 +3,7 @@ using TokenManager;
 
 namespace UmbracoMongoSmsDataServices.SmsServices.Fake
 {
-	public class FakeVerification : IServiceMobileNumbers
+	public sealed class FakeVerification : IServiceMobileNumbers
 	{
 		private readonly ILogger _logger;
 		public FakeVerification(ILogger logger)

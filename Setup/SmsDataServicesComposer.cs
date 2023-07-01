@@ -5,7 +5,7 @@ using UmbracoMongoDbClient.Setup;
 namespace UmbracoMongoSmsDataServices.Setup
 {
 	[ComposeAfter(typeof(MongoDbComposer))]
-	public class SmsDataServicesComposer : IComposer
+	public sealed class SmsDataServicesComposer : IComposer
 	{
 		public void Compose(IUmbracoBuilder builder)
 		{

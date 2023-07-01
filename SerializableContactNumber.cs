@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace UmbracoMongoSmsDataServices
 {
-	public class SerializableContactNumber
+	public sealed class SerializableContactNumber
 	{
 		[JsonProperty("CountryCodeAndPhoneCode")]
 		public string? CountryCodeAndPhoneCode { get; set; }

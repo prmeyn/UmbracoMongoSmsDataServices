@@ -4,7 +4,7 @@ using Umbraco.Cms.Core.PropertyEditors;
 
 namespace UmbracoMongoSmsDataServices
 {
-	public class UmbracoMongoContactNumberConvertor : IPropertyValueConverter
+	public sealed class UmbracoMongoContactNumberConvertor : IPropertyValueConverter
 	{
 		public bool IsConverter(IPublishedPropertyType propertyType) => propertyType.EditorAlias == "UmbracoMongoContactNumber";
 		public object? ConvertIntermediateToObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object? inter, bool preview) => inter as SerializableContactNumber;

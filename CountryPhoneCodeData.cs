@@ -1,6 +1,6 @@
 ﻿namespace UmbracoMongoSmsDataServices
 {
-	public class CountryPhoneCodeData
+	public sealed class CountryPhoneCodeData
 	{
 		public static Dictionary<string, CountryPhoneCodes> Load()
 		{

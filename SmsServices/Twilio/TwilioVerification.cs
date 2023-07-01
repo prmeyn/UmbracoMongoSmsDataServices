@@ -6,7 +6,7 @@ using Twilio.Rest.Verify.V2.Service;
 
 namespace UmbracoMongoSmsDataServices.SmsServices.TwilioService
 {
-	public class TwilioVerification : IServiceMobileNumbers
+	public sealed class TwilioVerification : IServiceMobileNumbers
 	{
 		private static string _accountSid;
 		private static string _authToken;
