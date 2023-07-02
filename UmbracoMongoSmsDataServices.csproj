@@ -12,7 +12,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Twilio" Version="6.9.0" />
     <PackageReference Include="Umbraco.Cms.Core" Version="12.0.0" />
-    <PackageReference Include="UmbracoMongoTokenManager" Version="11.3.1" />
+    <PackageReference Include="UmbracoMongoTokenManager" Version="12.0.1" />
     <None Include=".\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
